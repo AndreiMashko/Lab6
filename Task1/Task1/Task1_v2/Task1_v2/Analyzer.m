@@ -20,14 +20,18 @@
         
         [statictics setObject:[[NSNumber alloc] initWithLong:([repetitions integerValue]+1)] forKey:word];
     }
-	NSArray *sortedKeys=[statictics keysSortedByValueUsingComparator:
-						 ^NSConparisonResult(id obj1, id obj2){
-						 return [obj2 compare:obj1];
-						 }]
-						 
 	
-	for(int i=0; i<[sortedKeys count] && i<5; i++)
-	NSLong(@"%@ %@", sortedKeys[i], [statictics valueForKey:sortedKeys[i]]);
+    NSArray *sortedKeys=[statictics keysSortedByValueUsingComparator:
+                         ^NSComparisonResult(id obj1, id obj2){
+                             if ([obj1 integerValue] > [obj2 integerValue])
+                                 return NSOrderedAscending;
+                             if ([obj1 integerValue] < [obj2 integerValue])
+                                 return NSOrderedDescending;
+                             return NSOrderedSame;
+                         }];
+    
+    for(int i=0; i<[sortedKeys count] && i<5; i++)
+        NSLog(@"%@ %@", sortedKeys[i], [statictics valueForKey:sortedKeys[i]]);
 }
 
 @end
